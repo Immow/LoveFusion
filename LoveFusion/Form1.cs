@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Net.Security;
 
 namespace MyFirstProject
@@ -55,7 +56,7 @@ namespace MyFirstProject
             {
                 //MessageBox.Show("Both love2dPath and gamePath are set. Performing action...");
                 //MessageBox.Show("gameName:" + gameName);
-                Directory.CreateDirectory(outputPath+"/bin");
+                Directory.CreateDirectory(outputPath + "/bin");
 
                 if (!string.IsNullOrEmpty(love2dPath) && !string.IsNullOrEmpty(outputPath))
                 {
@@ -83,8 +84,16 @@ namespace MyFirstProject
                             MessageBox.Show("FAILED to copy DLL files, is your Love2d Path correct?");
                         }
                         else
-                        { 
-                            // TODO Run other stuff in the program
+                        {
+                            // Zip the contents of love2dPath to a .zip file
+                            string zipFilePath = outputPath + "\\" + gameName + ".zip";
+                            ZipFile.CreateFromDirectory(gamePath, zipFilePath);
+
+                            // Rename the .zip file to a .love file
+                            string loveFilePath = Path.ChangeExtension(zipFilePath, ".love");
+                            File.Move(zipFilePath, loveFilePath);
+
+                            // At this point, the .zip file has been renamed to .love
                         }
                     }
                     catch (Exception ex)
