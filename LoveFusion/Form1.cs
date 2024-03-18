@@ -94,6 +94,29 @@ namespace MyFirstProject
                             File.Move(zipFilePath, loveFilePath);
 
                             // At this point, the .zip file has been renamed to .love
+
+                            //string loveExePath = "path_to_love_exe\\love.exe"; // Replace "path_to_love_exe" with the actual path to your love.exe
+                            //string loveFilePath = "path_to_love_file\\SuperGame.love"; // Replace "path_to_love_file" with the actual path to your SuperGame.love
+                            //string outputExePath = "path_to_output\\SuperGame.exe"; // Replace "path_to_output" with the desired output path for the SuperGame.exe
+
+                            try
+                            {
+                                byte[] loveExeBytes = File.ReadAllBytes(love2dPath + "\\love.exe");
+                                byte[] loveFileBytes = File.ReadAllBytes(outputPath + "\\" + gameName + ".love");
+
+                                using (FileStream outputStream = new FileStream(outputPath + "\\" + gameName + ".exe", FileMode.Create))
+                                {
+                                    outputStream.Write(loveExeBytes, 0, loveExeBytes.Length);
+                                    outputStream.Write(loveFileBytes, 0, loveFileBytes.Length);
+                                }
+
+                                Console.WriteLine("*.exe created successfully.");
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error creating *.exe: " + ex.Message);
+                            }
+
                         }
                     }
                     catch (Exception ex)
