@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             btnLove2d = new Button();
             folderBrowserDialog1 = new FolderBrowserDialog();
             txbLove2dPath = new TextBox();
@@ -38,11 +39,12 @@
             btnGame = new Button();
             folderBrowserDialog3 = new FolderBrowserDialog();
             btnCreateExe = new Button();
-            textBox1 = new TextBox();
+            txbGameName = new TextBox();
             lblGameName = new Label();
             txbOutputPath = new TextBox();
             btnOutputPath = new Button();
             folderBrowserDialog4 = new FolderBrowserDialog();
+            imageList1 = new ImageList(components);
             SuspendLayout();
             // 
             // btnLove2d
@@ -53,14 +55,14 @@
             btnLove2d.TabIndex = 0;
             btnLove2d.Text = "Löve2D Path";
             btnLove2d.UseVisualStyleBackColor = true;
-            btnLove2d.Click += button1_Click;
+            btnLove2d.Click += btnBrowse_Click;
             // 
             // txbLove2dPath
             // 
             txbLove2dPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txbLove2dPath.Location = new Point(131, 12);
             txbLove2dPath.Name = "txbLove2dPath";
-            txbLove2dPath.Size = new Size(894, 23);
+            txbLove2dPath.Size = new Size(1060, 23);
             txbLove2dPath.TabIndex = 2;
             // 
             // btnBin
@@ -71,14 +73,14 @@
             btnBin.TabIndex = 3;
             btnBin.Text = "bin Path";
             btnBin.UseVisualStyleBackColor = true;
-            btnBin.Click += btnBin_Click;
+            btnBin.Click += btnBrowse_Click;
             // 
             // txbBin
             // 
             txbBin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txbBin.Location = new Point(131, 70);
             txbBin.Name = "txbBin";
-            txbBin.Size = new Size(894, 23);
+            txbBin.Size = new Size(1060, 23);
             txbBin.TabIndex = 4;
             // 
             // txbGamePath
@@ -86,7 +88,7 @@
             txbGamePath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txbGamePath.Location = new Point(131, 41);
             txbGamePath.Name = "txbGamePath";
-            txbGamePath.Size = new Size(894, 23);
+            txbGamePath.Size = new Size(1060, 23);
             txbGamePath.TabIndex = 6;
             // 
             // btnGame
@@ -97,7 +99,7 @@
             btnGame.TabIndex = 5;
             btnGame.Text = "Game Path";
             btnGame.UseVisualStyleBackColor = true;
-            btnGame.Click += btnGame_Click;
+            btnGame.Click += btnBrowse_Click;
             // 
             // btnCreateExe
             // 
@@ -109,14 +111,13 @@
             btnCreateExe.UseVisualStyleBackColor = true;
             btnCreateExe.Click += btnCreateExe_Click;
             // 
-            // textBox1
+            // txbGameName
             // 
-            textBox1.AcceptsReturn = true;
-            textBox1.Location = new Point(131, 128);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(231, 23);
-            textBox1.TabIndex = 8;
-            textBox1.TextChanged += txbGameName_TextChanged;
+            txbGameName.AcceptsReturn = true;
+            txbGameName.Location = new Point(131, 128);
+            txbGameName.Name = "txbGameName";
+            txbGameName.Size = new Size(231, 23);
+            txbGameName.TabIndex = 8;
             // 
             // lblGameName
             // 
@@ -132,7 +133,7 @@
             txbOutputPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txbOutputPath.Location = new Point(131, 99);
             txbOutputPath.Name = "txbOutputPath";
-            txbOutputPath.Size = new Size(894, 23);
+            txbOutputPath.Size = new Size(1060, 23);
             txbOutputPath.TabIndex = 11;
             // 
             // btnOutputPath
@@ -143,18 +144,24 @@
             btnOutputPath.TabIndex = 10;
             btnOutputPath.Text = "Output Path";
             btnOutputPath.UseVisualStyleBackColor = true;
-            btnOutputPath.Click += btnOutputPath_Click;
+            btnOutputPath.Click += btnBrowse_Click;
+            // 
+            // imageList1
+            // 
+            imageList1.ColorDepth = ColorDepth.Depth32Bit;
+            imageList1.ImageSize = new Size(16, 16);
+            imageList1.TransparentColor = Color.Transparent;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(1037, 231);
+            ClientSize = new Size(1203, 396);
             Controls.Add(txbOutputPath);
             Controls.Add(btnOutputPath);
             Controls.Add(lblGameName);
-            Controls.Add(textBox1);
+            Controls.Add(txbGameName);
             Controls.Add(btnCreateExe);
             Controls.Add(txbGamePath);
             Controls.Add(btnGame);
@@ -182,10 +189,11 @@
         private Button btnGame;
         private FolderBrowserDialog folderBrowserDialog3;
         private Button btnCreateExe;
-        private TextBox textBox1;
+        private TextBox txbGameName;
         private Label lblGameName;
         private TextBox txbOutputPath;
         private Button btnOutputPath;
         private FolderBrowserDialog folderBrowserDialog4;
+        private ImageList imageList1;
     }
 }
