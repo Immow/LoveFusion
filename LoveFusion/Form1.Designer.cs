@@ -172,7 +172,7 @@
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MinimumSize = new Size(300, 200);
             Name = "Form1";
-            Text = "Löve2D Exe Maker";
+            Text = "Löve2D Fusion";
             ResumeLayout(false);
             PerformLayout();
         }

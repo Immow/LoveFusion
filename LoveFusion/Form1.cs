@@ -10,10 +10,14 @@ namespace MyFirstProject
         public Form1()
         {
             InitializeComponent();
-            btnLove2d.Tag     = txbLove2dPath;
-            btnGame.Tag       = txbGamePath;
-            btnBin.Tag        = txbBin;
-            btnOutputPath.Tag = txbOutputPath;
+            btnLove2d.Tag      = txbLove2dPath;
+            btnGame.Tag        = txbGamePath;
+            btnBin.Tag         = txbBin;
+            btnOutputPath.Tag  = txbOutputPath;
+            //txbLove2dPath.Text = "C:\\Program Files\\LOVE";
+            //txbGamePath.Text   = "D:\\Documents\\Programming\\Lua\\Test\\FFI";
+            //txbBin.Text        = "D:\\Documents\\Programming\\Lua\\Test\\FFI\\bin";
+            //txbOutputPath.Text = "C:\\Dev\\test";
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -29,25 +33,51 @@ namespace MyFirstProject
             }
         }
 
-        private string[] CopyDllFiles()
+        // TODO Add button to open output path.
+
+        private string[] CopyLove2dFiles()
         {
-            // Get all .dll files in the source directory
+            // Get .dll files in the source directory
             string[] dllFiles = Directory.GetFiles(txbLove2dPath.Text, "*.dll");
 
-            // Copy each .dll file to the destination directory
-            foreach (string dllFile in dllFiles)
+            // Get license.txt files in the source directory
+            string[] licenseFiles = Directory.GetFiles(txbLove2dPath.Text, "license.txt");
+
+            // Concatenate the two arrays
+            string[] files = dllFiles.Concat(licenseFiles).ToArray();
+
+            // Copy each file to the destination directory
+            foreach (string file in files)
             {
                 // Get the file name without the path
-                string fileName = Path.GetFileName(dllFile);
+                string fileName = Path.GetFileName(file);
 
                 // Construct the destination file path
                 string destinationFilePath = Path.Combine(txbOutputPath.Text, fileName);
 
                 // Copy the file to the destination directory
-                File.Copy(dllFile, destinationFilePath, true); // Set overwrite to true if you want to overwrite existing files
+                File.Copy(file, destinationFilePath, true); // Set overwrite to true if you want to overwrite existing files
             }
 
-            return dllFiles;
+            return files;
+        }
+
+        static void CopyAll(string source, string target)
+        {
+            // Copy each file
+            foreach (string file in Directory.GetFiles(source))
+            {
+                string targetFile = Path.Combine(target, Path.GetFileName(file));
+                File.Copy(file, targetFile, true);
+            }
+
+            // Copy each subdirectory
+            foreach (string subDirectory in Directory.GetDirectories(source))
+            {
+                string targetSubDirectory = Path.Combine(target, Path.GetFileName(subDirectory));
+                Directory.CreateDirectory(targetSubDirectory);
+                CopyAll(subDirectory, targetSubDirectory);
+            }
         }
 
         private void ZipGame()
@@ -68,7 +98,6 @@ namespace MyFirstProject
                 outputStream.Write(loveExeBytes, 0, loveExeBytes.Length);
                 outputStream.Write(loveFileBytes, 0, loveFileBytes.Length);
             }
-            // TODO: license.txt
             // TODO Bin (copy files)
             File.Delete(Path.Combine(txbOutputPath.Text, txbGameName.Text + ".love"));
             Console.WriteLine("*.exe created successfully.");
@@ -100,8 +129,8 @@ namespace MyFirstProject
 
             try
             {
-                string[] dllFiles = CopyDllFiles();
-                if (dllFiles.Length == 0)
+                string[] files = CopyLove2dFiles();
+                if (files.Length == 0)
                 {
                     MessageBox.Show("FAILED to copy DLL files, is your Love2d Path correct?");
                 }
@@ -114,6 +143,18 @@ namespace MyFirstProject
                     catch (Exception ex)
                     {
                         MessageBox.Show("FAILED to create *.exe" + ex.Message);
+                    }
+
+                    try
+                    {
+                        if (txbBin.Text.Length > 0)
+                        {
+                            CopyAll(txbBin.Text, Path.Combine(txbOutputPath.Text, "bin"));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("FAILED to copy bin files & folders " + ex.Message);
                     }
                 }
             }
