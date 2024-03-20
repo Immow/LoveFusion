@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Windows.Forms;
+using LoveFusion.Properties;
 
 // TODO
 // Change messagebox to: DialogResult result = MessageBox.Show("...", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
@@ -25,6 +26,31 @@ namespace MyFirstProject
             //TextBox_GamePath.Text = "D:\\Documents\\Programming\\Lua\\Test\\FFI";
             //TextBox_Bin.Text = "D:\\Documents\\Programming\\Lua\\Test\\FFI\\bin";
             //TextBox_OutputPath.Text = "C:\\Dev\\test";
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // Load the last user input from settings
+            TextBox_Love2dPath.Text = LoveFusion.Properties.Settings.Default.Love2dPath;
+            TextBox_GamePath.Text = LoveFusion.Properties.Settings.Default.GamePath;
+            TextBox_Bin.Text = LoveFusion.Properties.Settings.Default.BinPath;
+            TextBox_OutputPath.Text = LoveFusion.Properties.Settings.Default.OutputPath;
+            TextBox_GameName.Text = LoveFusion.Properties.Settings.Default.GameName;
+            OpenFolder_CheckBox.Checked = LoveFusion.Properties.Settings.Default.OpenFolder_CheckBox;
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Save the current user input to settings
+
+            LoveFusion.Properties.Settings.Default.Love2dPath = TextBox_Love2dPath.Text;
+            LoveFusion.Properties.Settings.Default.GamePath = TextBox_GamePath.Text;
+            LoveFusion.Properties.Settings.Default.BinPath = TextBox_Bin.Text;
+            LoveFusion.Properties.Settings.Default.OutputPath = TextBox_OutputPath.Text;
+            LoveFusion.Properties.Settings.Default.GameName = TextBox_GameName.Text;
+            LoveFusion.Properties.Settings.Default.OpenFolder_CheckBox = OpenFolder_CheckBox.Checked;
+
+            LoveFusion.Properties.Settings.Default.Save();
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -113,6 +139,10 @@ namespace MyFirstProject
 
         private void btnCreateExe_Click(object sender, EventArgs e)
         {
+
+            //string lastUserInput = Settings.Default.LastUserInput;
+            //TextBox_GamePath.Text = lastUserInput;
+
             if (string.IsNullOrEmpty(TextBox_Love2dPath.Text)) { MessageBox.Show("Love2d path not set"); return; }
             if (string.IsNullOrEmpty(TextBox_GamePath.Text)) { MessageBox.Show("Game path not set"); return; }
             if (string.IsNullOrEmpty(TextBox_OutputPath.Text)) { MessageBox.Show("Output path not set"); return; }

@@ -174,6 +174,8 @@
             MinimumSize = new Size(300, 200);
             Name = "Form1";
             Text = "Löve2D Fusion";
+            FormClosed += Form1_FormClosed;
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
