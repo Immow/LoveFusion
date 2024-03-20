@@ -1,7 +1,14 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Windows.Forms;
+
+// TODO
+// Change messagebox to: DialogResult result = MessageBox.Show("...", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+// Add an image to background
+// Min height adjustment
+// Remember last known settings
 
 namespace MyFirstProject
 {
@@ -10,38 +17,36 @@ namespace MyFirstProject
         public Form1()
         {
             InitializeComponent();
-            btnLove2d.Tag      = txbLove2dPath;
-            btnGame.Tag        = txbGamePath;
-            btnBin.Tag         = txbBin;
-            btnOutputPath.Tag  = txbOutputPath;
-            //txbLove2dPath.Text = "C:\\Program Files\\LOVE";
-            //txbGamePath.Text   = "D:\\Documents\\Programming\\Lua\\Test\\FFI";
-            //txbBin.Text        = "D:\\Documents\\Programming\\Lua\\Test\\FFI\\bin";
-            //txbOutputPath.Text = "C:\\Dev\\test";
+            Button_Love2d.Tag = TextBox_Love2dPath;
+            Button_Game.Tag = TextBox_GamePath;
+            Button_Bin.Tag = TextBox_Bin;
+            Button_OutputPath.Tag = TextBox_OutputPath;
+            //TextBox_Love2dPath.Text = "C:\\Program Files\\LOVE";
+            //TextBox_GamePath.Text = "D:\\Documents\\Programming\\Lua\\Test\\FFI";
+            //TextBox_Bin.Text = "D:\\Documents\\Programming\\Lua\\Test\\FFI\\bin";
+            //TextBox_OutputPath.Text = "C:\\Dev\\test";
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
             var textBox = button.Tag as TextBox;
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 if (textBox != null)
                 {
-                    textBox.Text = folderBrowserDialog1.SelectedPath;
+                    textBox.Text = folderBrowserDialog.SelectedPath;
                 }
             }
         }
 
-        // TODO Add button to open output path.
-
         private string[] CopyLove2dFiles()
         {
             // Get .dll files in the source directory
-            string[] dllFiles = Directory.GetFiles(txbLove2dPath.Text, "*.dll");
+            string[] dllFiles = Directory.GetFiles(TextBox_Love2dPath.Text, "*.dll");
 
             // Get license.txt files in the source directory
-            string[] licenseFiles = Directory.GetFiles(txbLove2dPath.Text, "license.txt");
+            string[] licenseFiles = Directory.GetFiles(TextBox_Love2dPath.Text, "license.txt");
 
             // Concatenate the two arrays
             string[] files = dllFiles.Concat(licenseFiles).ToArray();
@@ -53,7 +58,7 @@ namespace MyFirstProject
                 string fileName = Path.GetFileName(file);
 
                 // Construct the destination file path
-                string destinationFilePath = Path.Combine(txbOutputPath.Text, fileName);
+                string destinationFilePath = Path.Combine(TextBox_OutputPath.Text, fileName);
 
                 // Copy the file to the destination directory
                 File.Copy(file, destinationFilePath, true); // Set overwrite to true if you want to overwrite existing files
@@ -83,40 +88,43 @@ namespace MyFirstProject
         private void ZipGame()
         {
             // Zip the contents of love2dPath to a .zip file
-            string zipFilePath = Path.Combine(txbOutputPath.Text, txbGameName.Text + ".zip");
-            ZipFile.CreateFromDirectory(txbGamePath.Text, zipFilePath);
+            if (string.IsNullOrEmpty(TextBox_GameName.Text))
+            {
+                TextBox_GameName.Text = Path.GetFileName(TextBox_GamePath.Text);
+            }
+            string zipFilePath = Path.Combine(TextBox_OutputPath.Text, TextBox_GameName.Text + ".zip");
+            ZipFile.CreateFromDirectory(TextBox_GamePath.Text, zipFilePath);
 
             // Rename the .zip file to a .love file
             string loveFilePath = Path.ChangeExtension(zipFilePath, ".love");
             File.Move(zipFilePath, loveFilePath);
 
-            byte[] loveExeBytes = File.ReadAllBytes(Path.Combine(txbLove2dPath.Text, "love.exe"));
-            byte[] loveFileBytes = File.ReadAllBytes(Path.Combine(txbOutputPath.Text, txbGameName.Text + ".love"));
+            byte[] loveExeBytes = File.ReadAllBytes(Path.Combine(TextBox_Love2dPath.Text, "love.exe"));
+            byte[] loveFileBytes = File.ReadAllBytes(Path.Combine(TextBox_OutputPath.Text, TextBox_GameName.Text + ".love"));
 
-            using (FileStream outputStream = new FileStream(Path.Combine(txbOutputPath.Text, txbGameName.Text + ".exe"), FileMode.Create))
+            using (FileStream outputStream = new FileStream(Path.Combine(TextBox_OutputPath.Text, TextBox_GameName.Text + ".exe"), FileMode.Create))
             {
                 outputStream.Write(loveExeBytes, 0, loveExeBytes.Length);
                 outputStream.Write(loveFileBytes, 0, loveFileBytes.Length);
             }
-            // TODO Bin (copy files)
-            File.Delete(Path.Combine(txbOutputPath.Text, txbGameName.Text + ".love"));
+            File.Delete(Path.Combine(TextBox_OutputPath.Text, TextBox_GameName.Text + ".love"));
             Console.WriteLine("*.exe created successfully.");
         }
 
         private void btnCreateExe_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txbLove2dPath.Text)) { MessageBox.Show("Love2d path not set"); return; }
-            if (string.IsNullOrEmpty(txbGamePath.Text)) { MessageBox.Show("Game path not set"); return; }
-            if (string.IsNullOrEmpty(txbOutputPath.Text)) { MessageBox.Show("Output path not set"); return; }
+            if (string.IsNullOrEmpty(TextBox_Love2dPath.Text)) { MessageBox.Show("Love2d path not set"); return; }
+            if (string.IsNullOrEmpty(TextBox_GamePath.Text)) { MessageBox.Show("Game path not set"); return; }
+            if (string.IsNullOrEmpty(TextBox_OutputPath.Text)) { MessageBox.Show("Output path not set"); return; }
 
-            string[] filesInOutputDir = Directory.GetFiles(txbOutputPath.Text);
+            string[] filesInOutputDir = Directory.GetFiles(TextBox_OutputPath.Text);
             if (filesInOutputDir.Length > 0)
             {
                 // Prompt the user if they want to delete the existing files
-                DialogResult result = MessageBox.Show("There are files in the output directory. Do you want to delete them?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                DialogResult result = MessageBox.Show("There are files in the output directory. Do you want to delete them?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
-                    Directory.Delete(txbOutputPath.Text, true);
+                    Directory.Delete(TextBox_OutputPath.Text, true);
                 }
                 else
                 {
@@ -124,8 +132,8 @@ namespace MyFirstProject
                     return;
                 }
             }
-            
-            Directory.CreateDirectory(Path.Combine(txbOutputPath.Text, "bin")); // Create bin directory
+
+            Directory.CreateDirectory(Path.Combine(TextBox_OutputPath.Text, "bin")); // Create bin directory
 
             try
             {
@@ -147,9 +155,9 @@ namespace MyFirstProject
 
                     try
                     {
-                        if (txbBin.Text.Length > 0)
+                        if (TextBox_Bin.Text.Length > 0)
                         {
-                            CopyAll(txbBin.Text, Path.Combine(txbOutputPath.Text, "bin"));
+                            CopyAll(TextBox_Bin.Text, Path.Combine(TextBox_OutputPath.Text, "bin"));
                         }
                     }
                     catch (Exception ex)
@@ -162,6 +170,8 @@ namespace MyFirstProject
             {
                 MessageBox.Show("Error copying DLL files: " + ex.Message);
             }
+            MessageBox.Show("Task run successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (OpenFolder_CheckBox.Checked) { Process.Start("explorer.exe", TextBox_OutputPath.Text); }
         }
     }
 }
