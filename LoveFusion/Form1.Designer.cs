@@ -1,6 +1,6 @@
 ﻿namespace MyFirstProject
 {
-    partial class Form1
+    partial class Form
     {
         /// <summary>
         ///  Required designer variable.
@@ -41,11 +41,12 @@
             TextBox_OutputPath = new TextBox();
             Button_OutputPath = new Button();
             OpenFolder_CheckBox = new CheckBox();
+            Label_Version = new Label();
             SuspendLayout();
             // 
             // Button_Love2d
             // 
-            Button_Love2d.Location = new Point(12, 12);
+            Button_Love2d.Location = new Point(12, 11);
             Button_Love2d.Name = "Button_Love2d";
             Button_Love2d.Size = new Size(113, 23);
             Button_Love2d.TabIndex = 0;
@@ -56,14 +57,15 @@
             // TextBox_Love2dPath
             // 
             TextBox_Love2dPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TextBox_Love2dPath.Location = new Point(131, 12);
+            TextBox_Love2dPath.Location = new Point(131, 11);
             TextBox_Love2dPath.Name = "TextBox_Love2dPath";
-            TextBox_Love2dPath.Size = new Size(1060, 23);
+            TextBox_Love2dPath.Size = new Size(441, 23);
             TextBox_Love2dPath.TabIndex = 2;
+            TextBox_Love2dPath.TextChanged += PathTextChanged;
             // 
             // Button_Bin
             // 
-            Button_Bin.Location = new Point(12, 70);
+            Button_Bin.Location = new Point(12, 69);
             Button_Bin.Name = "Button_Bin";
             Button_Bin.Size = new Size(113, 23);
             Button_Bin.TabIndex = 3;
@@ -74,22 +76,23 @@
             // TextBox_Bin
             // 
             TextBox_Bin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TextBox_Bin.Location = new Point(131, 70);
+            TextBox_Bin.Location = new Point(131, 69);
             TextBox_Bin.Name = "TextBox_Bin";
-            TextBox_Bin.Size = new Size(1060, 23);
+            TextBox_Bin.Size = new Size(441, 23);
             TextBox_Bin.TabIndex = 4;
             // 
             // TextBox_GamePath
             // 
             TextBox_GamePath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TextBox_GamePath.Location = new Point(131, 41);
+            TextBox_GamePath.Location = new Point(131, 40);
             TextBox_GamePath.Name = "TextBox_GamePath";
-            TextBox_GamePath.Size = new Size(1060, 23);
+            TextBox_GamePath.Size = new Size(441, 23);
             TextBox_GamePath.TabIndex = 6;
+            TextBox_GamePath.TextChanged += PathTextChanged;
             // 
             // Button_Game
             // 
-            Button_Game.Location = new Point(12, 41);
+            Button_Game.Location = new Point(12, 40);
             Button_Game.Name = "Button_Game";
             Button_Game.Size = new Size(113, 23);
             Button_Game.TabIndex = 5;
@@ -99,18 +102,20 @@
             // 
             // Button_CreateExe
             // 
-            Button_CreateExe.Location = new Point(12, 161);
+            Button_CreateExe.BackColor = SystemColors.Control;
+            Button_CreateExe.Enabled = false;
+            Button_CreateExe.Location = new Point(12, 160);
             Button_CreateExe.Name = "Button_CreateExe";
             Button_CreateExe.Size = new Size(113, 23);
             Button_CreateExe.TabIndex = 7;
             Button_CreateExe.Text = "Create executable";
-            Button_CreateExe.UseVisualStyleBackColor = true;
+            Button_CreateExe.UseVisualStyleBackColor = false;
             Button_CreateExe.Click += btnCreateExe_Click;
             // 
             // TextBox_GameName
             // 
             TextBox_GameName.AcceptsReturn = true;
-            TextBox_GameName.Location = new Point(131, 128);
+            TextBox_GameName.Location = new Point(131, 127);
             TextBox_GameName.Name = "TextBox_GameName";
             TextBox_GameName.Size = new Size(231, 23);
             TextBox_GameName.TabIndex = 8;
@@ -118,7 +123,7 @@
             // lblGameName
             // 
             lblGameName.AutoSize = true;
-            lblGameName.Location = new Point(52, 136);
+            lblGameName.Location = new Point(52, 135);
             lblGameName.Name = "lblGameName";
             lblGameName.Size = new Size(73, 15);
             lblGameName.TabIndex = 9;
@@ -127,14 +132,15 @@
             // TextBox_OutputPath
             // 
             TextBox_OutputPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TextBox_OutputPath.Location = new Point(131, 99);
+            TextBox_OutputPath.Location = new Point(131, 98);
             TextBox_OutputPath.Name = "TextBox_OutputPath";
-            TextBox_OutputPath.Size = new Size(1060, 23);
+            TextBox_OutputPath.Size = new Size(441, 23);
             TextBox_OutputPath.TabIndex = 11;
+            TextBox_OutputPath.TextChanged += PathTextChanged;
             // 
             // Button_OutputPath
             // 
-            Button_OutputPath.Location = new Point(12, 99);
+            Button_OutputPath.Location = new Point(12, 98);
             Button_OutputPath.Name = "Button_OutputPath";
             Button_OutputPath.Size = new Size(113, 23);
             Button_OutputPath.TabIndex = 10;
@@ -145,19 +151,30 @@
             // OpenFolder_CheckBox
             // 
             OpenFolder_CheckBox.AutoSize = true;
-            OpenFolder_CheckBox.Location = new Point(131, 164);
+            OpenFolder_CheckBox.Location = new Point(131, 163);
             OpenFolder_CheckBox.Name = "OpenFolder_CheckBox";
             OpenFolder_CheckBox.Size = new Size(146, 19);
             OpenFolder_CheckBox.TabIndex = 12;
             OpenFolder_CheckBox.Text = "Open folder after build";
             OpenFolder_CheckBox.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // Label_Version
+            // 
+            Label_Version.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            Label_Version.AutoSize = true;
+            Label_Version.Location = new Point(548, 180);
+            Label_Version.Name = "Label_Version";
+            Label_Version.Size = new Size(37, 15);
+            Label_Version.TabIndex = 13;
+            Label_Version.Text = "v 0.01";
+            // 
+            // Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(1203, 396);
+            ClientSize = new Size(584, 196);
+            Controls.Add(Label_Version);
             Controls.Add(OpenFolder_CheckBox);
             Controls.Add(TextBox_OutputPath);
             Controls.Add(Button_OutputPath);
@@ -171,8 +188,9 @@
             Controls.Add(TextBox_Love2dPath);
             Controls.Add(Button_Love2d);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            MinimumSize = new Size(300, 200);
-            Name = "Form1";
+            MaximumSize = new Size(2000, 235);
+            MinimumSize = new Size(600, 235);
+            Name = "Form";
             Text = "Löve2D Fusion";
             FormClosed += Form1_FormClosed;
             Load += Form1_Load;
@@ -195,5 +213,6 @@
         private TextBox TextBox_OutputPath;
         private Button Button_OutputPath;
         private CheckBox OpenFolder_CheckBox;
+        private Label Label_Version;
     }
 }

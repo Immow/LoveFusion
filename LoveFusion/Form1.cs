@@ -8,14 +8,12 @@ using LoveFusion.Properties;
 // TODO
 // Change messagebox to: DialogResult result = MessageBox.Show("...", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
 // Add an image to background
-// Min height adjustment
-// Remember last known settings
 
 namespace MyFirstProject
 {
-    public partial class Form1 : Form
+    public partial class Form : System.Windows.Forms.Form
     {
-        public Form1()
+        public Form()
         {
             InitializeComponent();
             Button_Love2d.Tag = TextBox_Love2dPath;
@@ -27,7 +25,6 @@ namespace MyFirstProject
             //TextBox_Bin.Text = "D:\\Documents\\Programming\\Lua\\Test\\FFI\\bin";
             //TextBox_OutputPath.Text = "C:\\Dev\\test";
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             // Load the last user input from settings
@@ -42,7 +39,6 @@ namespace MyFirstProject
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             // Save the current user input to settings
-
             LoveFusion.Properties.Settings.Default.Love2dPath = TextBox_Love2dPath.Text;
             LoveFusion.Properties.Settings.Default.GamePath = TextBox_GamePath.Text;
             LoveFusion.Properties.Settings.Default.BinPath = TextBox_Bin.Text;
@@ -68,41 +64,27 @@ namespace MyFirstProject
 
         private string[] CopyLove2dFiles()
         {
-            // Get .dll files in the source directory
             string[] dllFiles = Directory.GetFiles(TextBox_Love2dPath.Text, "*.dll");
-
-            // Get license.txt files in the source directory
             string[] licenseFiles = Directory.GetFiles(TextBox_Love2dPath.Text, "license.txt");
-
-            // Concatenate the two arrays
             string[] files = dllFiles.Concat(licenseFiles).ToArray();
 
-            // Copy each file to the destination directory
             foreach (string file in files)
             {
-                // Get the file name without the path
                 string fileName = Path.GetFileName(file);
-
-                // Construct the destination file path
                 string destinationFilePath = Path.Combine(TextBox_OutputPath.Text, fileName);
-
-                // Copy the file to the destination directory
-                File.Copy(file, destinationFilePath, true); // Set overwrite to true if you want to overwrite existing files
+                File.Copy(file, destinationFilePath, true);
             }
-
             return files;
         }
 
         static void CopyAll(string source, string target)
         {
-            // Copy each file
             foreach (string file in Directory.GetFiles(source))
             {
                 string targetFile = Path.Combine(target, Path.GetFileName(file));
                 File.Copy(file, targetFile, true);
             }
 
-            // Copy each subdirectory
             foreach (string subDirectory in Directory.GetDirectories(source))
             {
                 string targetSubDirectory = Path.Combine(target, Path.GetFileName(subDirectory));
@@ -113,7 +95,6 @@ namespace MyFirstProject
 
         private void ZipGame()
         {
-            // Zip the contents of love2dPath to a .zip file
             if (string.IsNullOrEmpty(TextBox_GameName.Text))
             {
                 TextBox_GameName.Text = Path.GetFileName(TextBox_GamePath.Text);
@@ -121,7 +102,6 @@ namespace MyFirstProject
             string zipFilePath = Path.Combine(TextBox_OutputPath.Text, TextBox_GameName.Text + ".zip");
             ZipFile.CreateFromDirectory(TextBox_GamePath.Text, zipFilePath);
 
-            // Rename the .zip file to a .love file
             string loveFilePath = Path.ChangeExtension(zipFilePath, ".love");
             File.Move(zipFilePath, loveFilePath);
 
@@ -139,10 +119,6 @@ namespace MyFirstProject
 
         private void btnCreateExe_Click(object sender, EventArgs e)
         {
-
-            //string lastUserInput = Settings.Default.LastUserInput;
-            //TextBox_GamePath.Text = lastUserInput;
-
             if (string.IsNullOrEmpty(TextBox_Love2dPath.Text)) { MessageBox.Show("Love2d path not set"); return; }
             if (string.IsNullOrEmpty(TextBox_GamePath.Text)) { MessageBox.Show("Game path not set"); return; }
             if (string.IsNullOrEmpty(TextBox_OutputPath.Text)) { MessageBox.Show("Output path not set"); return; }
@@ -150,7 +126,6 @@ namespace MyFirstProject
             string[] filesInOutputDir = Directory.GetFiles(TextBox_OutputPath.Text);
             if (filesInOutputDir.Length > 0)
             {
-                // Prompt the user if they want to delete the existing files
                 DialogResult result = MessageBox.Show("There are files in the output directory. Do you want to delete them?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
@@ -158,12 +133,11 @@ namespace MyFirstProject
                 }
                 else
                 {
-                    // User chose not to delete the files, return early
                     return;
                 }
             }
 
-            Directory.CreateDirectory(Path.Combine(TextBox_OutputPath.Text, "bin")); // Create bin directory
+            Directory.CreateDirectory(Path.Combine(TextBox_OutputPath.Text, "bin"));
 
             try
             {
@@ -202,6 +176,22 @@ namespace MyFirstProject
             }
             MessageBox.Show("Task run successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (OpenFolder_CheckBox.Checked) { Process.Start("explorer.exe", TextBox_OutputPath.Text); }
+        }
+
+        private void PathTextChanged(object sender, EventArgs e)
+        {
+            if ((!string.IsNullOrEmpty(TextBox_Love2dPath.Text)) && (!string.IsNullOrEmpty(TextBox_GamePath.Text)) && (!string.IsNullOrEmpty(TextBox_OutputPath.Text)))
+            {
+                Button_CreateExe.Enabled = true;
+                Button_CreateExe.FlatStyle = FlatStyle.Standard;
+                Button_CreateExe.BackColor = Color.White;
+            }
+            else
+            {
+                Button_CreateExe.Enabled = false;
+                Button_CreateExe.FlatStyle = FlatStyle.Flat;
+                Button_CreateExe.BackColor = Color.DarkGray; // Change the background color
+            }
         }
     }
 }
