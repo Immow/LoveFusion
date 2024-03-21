@@ -8,7 +8,7 @@ using LoveFusion.Properties;
 
 // TODO
 // Change messagebox to: DialogResult result = MessageBox.Show("...", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-// Add an image to background
+// When bin folder is not set, don't create it in output path.
 
 namespace MyFirstProject
 {
