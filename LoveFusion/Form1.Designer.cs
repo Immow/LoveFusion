@@ -42,6 +42,8 @@
             Button_OutputPath = new Button();
             OpenFolder_CheckBox = new CheckBox();
             Label_Version = new Label();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // Button_Love2d
@@ -162,18 +164,32 @@
             // 
             Label_Version.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             Label_Version.AutoSize = true;
-            Label_Version.Location = new Point(548, 180);
+            Label_Version.Location = new Point(532, 180);
             Label_Version.Name = "Label_Version";
             Label_Version.Size = new Size(37, 15);
             Label_Version.TabIndex = 13;
             Label_Version.Text = "v 0.01";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox1.Image = LoveFusion.Properties.Resources.love_app_icon;
+            pictureBox1.Location = new Point(523, 126);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(56, 56);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 14;
+            pictureBox1.TabStop = false;
             // 
             // Form
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
+            BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(584, 196);
+            Controls.Add(pictureBox1);
             Controls.Add(Label_Version);
             Controls.Add(OpenFolder_CheckBox);
             Controls.Add(TextBox_OutputPath);
@@ -187,6 +203,7 @@
             Controls.Add(Button_Bin);
             Controls.Add(TextBox_Love2dPath);
             Controls.Add(Button_Love2d);
+            DoubleBuffered = true;
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MaximumSize = new Size(2000, 235);
             MinimumSize = new Size(600, 235);
@@ -194,6 +211,7 @@
             Text = "Löve2D Fusion";
             FormClosed += Form1_FormClosed;
             Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -214,5 +232,6 @@
         private Button Button_OutputPath;
         private CheckBox OpenFolder_CheckBox;
         private Label Label_Version;
+        private PictureBox pictureBox1;
     }
 }
