@@ -8,7 +8,7 @@ using LoveFusion.Properties;
 
 // TODO
 // Change messagebox to: DialogResult result = MessageBox.Show("...", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-// When bin folder is not set, don't create it in output path.
+// Option to change game.exe icon?
 
 namespace MyFirstProject
 {
@@ -19,7 +19,7 @@ namespace MyFirstProject
             InitializeComponent();
             Button_Love2d.Tag = TextBox_Love2dPath;
             Button_Game.Tag = TextBox_GamePath;
-            Button_Bin.Tag = TextBox_Bin;
+            Button_Bin.Tag = TextBox_BinPath;
             Button_OutputPath.Tag = TextBox_OutputPath;
             //TextBox_Love2dPath.Text = "C:\\Program Files\\LOVE";
             //TextBox_GamePath.Text = "D:\\Documents\\Programming\\Lua\\Test\\FFI";
@@ -31,7 +31,7 @@ namespace MyFirstProject
             // Load the last user input from settings
             TextBox_Love2dPath.Text = LoveFusion.Properties.Settings.Default.Love2dPath;
             TextBox_GamePath.Text = LoveFusion.Properties.Settings.Default.GamePath;
-            TextBox_Bin.Text = LoveFusion.Properties.Settings.Default.BinPath;
+            TextBox_BinPath.Text = LoveFusion.Properties.Settings.Default.BinPath;
             TextBox_OutputPath.Text = LoveFusion.Properties.Settings.Default.OutputPath;
             TextBox_GameName.Text = LoveFusion.Properties.Settings.Default.GameName;
             OpenFolder_CheckBox.Checked = LoveFusion.Properties.Settings.Default.OpenFolder_CheckBox;
@@ -42,7 +42,7 @@ namespace MyFirstProject
             // Save the current user input to settings
             LoveFusion.Properties.Settings.Default.Love2dPath = TextBox_Love2dPath.Text;
             LoveFusion.Properties.Settings.Default.GamePath = TextBox_GamePath.Text;
-            LoveFusion.Properties.Settings.Default.BinPath = TextBox_Bin.Text;
+            LoveFusion.Properties.Settings.Default.BinPath = TextBox_BinPath.Text;
             LoveFusion.Properties.Settings.Default.OutputPath = TextBox_OutputPath.Text;
             LoveFusion.Properties.Settings.Default.GameName = TextBox_GameName.Text;
             LoveFusion.Properties.Settings.Default.OpenFolder_CheckBox = OpenFolder_CheckBox.Checked;
@@ -127,7 +127,7 @@ namespace MyFirstProject
             string[] filesInOutputDir = Directory.GetFiles(TextBox_OutputPath.Text);
             if (filesInOutputDir.Length > 0)
             {
-                DialogResult result = MessageBox.Show("There are files in the output directory. Do you want to delete them?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult result = MessageBox.Show("There are files in the output directory. Do you want to delete them?\n\nThis action will delete all files and folders, including subfolders and files, in that directory.", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
                     Directory.Delete(TextBox_OutputPath.Text, true);
@@ -138,7 +138,14 @@ namespace MyFirstProject
                 }
             }
 
-            Directory.CreateDirectory(Path.Combine(TextBox_OutputPath.Text, "bin"));
+            if (!string.IsNullOrEmpty(TextBox_BinPath.Text))
+            {
+                Directory.CreateDirectory(Path.Combine(TextBox_OutputPath.Text, "bin"));
+            }
+            else
+            {
+                Directory.CreateDirectory(TextBox_OutputPath.Text);
+            }
 
             try
             {
@@ -160,9 +167,9 @@ namespace MyFirstProject
 
                     try
                     {
-                        if (TextBox_Bin.Text.Length > 0)
+                        if (TextBox_BinPath.Text.Length > 0)
                         {
-                            CopyAll(TextBox_Bin.Text, Path.Combine(TextBox_OutputPath.Text, "bin"));
+                            CopyAll(TextBox_BinPath.Text, Path.Combine(TextBox_OutputPath.Text, "bin"));
                         }
                     }
                     catch (Exception ex)

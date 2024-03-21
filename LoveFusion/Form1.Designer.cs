@@ -32,7 +32,7 @@
             folderBrowserDialog = new FolderBrowserDialog();
             TextBox_Love2dPath = new TextBox();
             Button_Bin = new Button();
-            TextBox_Bin = new TextBox();
+            TextBox_BinPath = new TextBox();
             TextBox_GamePath = new TextBox();
             Button_Game = new Button();
             Button_CreateExe = new Button();
@@ -75,13 +75,13 @@
             Button_Bin.UseVisualStyleBackColor = true;
             Button_Bin.Click += btnBrowse_Click;
             // 
-            // TextBox_Bin
+            // TextBox_BinPath
             // 
-            TextBox_Bin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TextBox_Bin.Location = new Point(131, 69);
-            TextBox_Bin.Name = "TextBox_Bin";
-            TextBox_Bin.Size = new Size(441, 23);
-            TextBox_Bin.TabIndex = 4;
+            TextBox_BinPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TextBox_BinPath.Location = new Point(131, 69);
+            TextBox_BinPath.Name = "TextBox_BinPath";
+            TextBox_BinPath.Size = new Size(441, 23);
+            TextBox_BinPath.TabIndex = 4;
             // 
             // TextBox_GamePath
             // 
@@ -199,7 +199,7 @@
             Controls.Add(Button_CreateExe);
             Controls.Add(TextBox_GamePath);
             Controls.Add(Button_Game);
-            Controls.Add(TextBox_Bin);
+            Controls.Add(TextBox_BinPath);
             Controls.Add(Button_Bin);
             Controls.Add(TextBox_Love2dPath);
             Controls.Add(Button_Love2d);
@@ -222,7 +222,7 @@
         private FolderBrowserDialog folderBrowserDialog;
         private TextBox TextBox_Love2dPath;
         private Button Button_Bin;
-        private TextBox TextBox_Bin;
+        private TextBox TextBox_BinPath;
         private TextBox TextBox_GamePath;
         private Button Button_Game;
         private Button Button_CreateExe;
