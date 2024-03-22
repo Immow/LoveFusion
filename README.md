@@ -12,9 +12,12 @@ The Löve2d Game Packager is a tool designed to streamline the process of packag
 
 1. **Launch the Program**: Run the executable file to launch the Löve2d Game Packager.
 2. **Set Path Locations**: On the main interface, specify the required path locations for packaging your game.
-3. **Package Your Game**: Once the path locations are set, package your game with the click of a button.
-4. **Copying Bin Files**: The tool automatically copies the necessary bin files and folders to the bin output path to support FFI when the game is fused.
-5. **Repeat as Needed**: The tool will remember the specified path locations for future use, simplifying the packaging process for subsequent games.
+3. **Optional: Set Game Name**: If desired, you can specify a custom name for your game by entering it in the "Game Name" field. If left blank, the tool will use the folder name of your game directory.
+4. **Optional: Specify Bin Location**: You can optionally specify the location of the bin folder for FFI by clicking the "Browse" button next to the "Bin Folder" field and selecting the folder.
+5. **Choose an Icon (Optional)**: You can optionally set an icon for your game by clicking the "Browse" button next to the "Icon File" field and selecting an icon file.
+6. **Package Your Game**: Once the path locations are set you can package your game with the click of a button.
+7. **Copying Bin Files**: The tool automatically copies the necessary bin files and folders to the bin output path to support FFI when the game is fused.
+8. **Repeat as Needed**: The tool will remember the specified path locations for future use, simplifying the packaging process for subsequent games.
 
 ## Requirements
 
