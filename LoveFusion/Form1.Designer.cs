@@ -63,6 +63,7 @@
             TextBox_Love2dPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBox_Love2dPath.Location = new Point(131, 11);
             TextBox_Love2dPath.Name = "TextBox_Love2dPath";
+            TextBox_Love2dPath.PlaceholderText = "Löve2d installtion path where löve.exe is located";
             TextBox_Love2dPath.Size = new Size(441, 23);
             TextBox_Love2dPath.TabIndex = 2;
             TextBox_Love2dPath.TextChanged += PathTextChanged;
@@ -82,6 +83,7 @@
             TextBox_BinPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBox_BinPath.Location = new Point(131, 69);
             TextBox_BinPath.Name = "TextBox_BinPath";
+            TextBox_BinPath.PlaceholderText = "(Optional) Location of the bin folder for FFI";
             TextBox_BinPath.Size = new Size(441, 23);
             TextBox_BinPath.TabIndex = 4;
             // 
@@ -90,6 +92,7 @@
             TextBox_GamePath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBox_GamePath.Location = new Point(131, 40);
             TextBox_GamePath.Name = "TextBox_GamePath";
+            TextBox_GamePath.PlaceholderText = "Location where your main.lua is located in your game folder";
             TextBox_GamePath.Size = new Size(441, 23);
             TextBox_GamePath.TabIndex = 6;
             TextBox_GamePath.TextChanged += PathTextChanged;
@@ -121,6 +124,7 @@
             TextBox_GameName.AcceptsReturn = true;
             TextBox_GameName.Location = new Point(131, 156);
             TextBox_GameName.Name = "TextBox_GameName";
+            TextBox_GameName.PlaceholderText = "(Optional) Your game name";
             TextBox_GameName.Size = new Size(231, 23);
             TextBox_GameName.TabIndex = 8;
             // 
@@ -138,6 +142,7 @@
             TextBox_OutputPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBox_OutputPath.Location = new Point(131, 98);
             TextBox_OutputPath.Name = "TextBox_OutputPath";
+            TextBox_OutputPath.PlaceholderText = "Location where game executable will be created";
             TextBox_OutputPath.Size = new Size(441, 23);
             TextBox_OutputPath.TabIndex = 11;
             TextBox_OutputPath.TextChanged += PathTextChanged;
@@ -189,6 +194,7 @@
             TextBox_IconPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             TextBox_IconPath.Location = new Point(131, 127);
             TextBox_IconPath.Name = "TextBox_IconPath";
+            TextBox_IconPath.PlaceholderText = "(Optional) Icon file location";
             TextBox_IconPath.Size = new Size(441, 23);
             TextBox_IconPath.TabIndex = 16;
             TextBox_IconPath.TextChanged += PathTextChanged;
@@ -199,7 +205,7 @@
             Button_Icon.Name = "Button_Icon";
             Button_Icon.Size = new Size(113, 23);
             Button_Icon.TabIndex = 17;
-            Button_Icon.Text = "Button_Icon";
+            Button_Icon.Text = "Icon";
             Button_Icon.UseVisualStyleBackColor = true;
             Button_Icon.Click += Icon_Click;
             // 
