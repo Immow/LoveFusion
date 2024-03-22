@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
@@ -21,6 +22,8 @@ namespace MyFirstProject
             Button_Game.Tag = TextBox_GamePath;
             Button_Bin.Tag = TextBox_BinPath;
             Button_OutputPath.Tag = TextBox_OutputPath;
+            Button_Icon.Tag = TextBox_IconPath;
+
             //TextBox_Love2dPath.Text = "C:\\Program Files\\LOVE";
             //TextBox_GamePath.Text = "D:\\Documents\\Programming\\Lua\\Test\\FFI";
             //TextBox_Bin.Text = "D:\\Documents\\Programming\\Lua\\Test\\FFI\\bin";
@@ -33,6 +36,7 @@ namespace MyFirstProject
             TextBox_GamePath.Text = LoveFusion.Properties.Settings.Default.GamePath;
             TextBox_BinPath.Text = LoveFusion.Properties.Settings.Default.BinPath;
             TextBox_OutputPath.Text = LoveFusion.Properties.Settings.Default.OutputPath;
+            TextBox_IconPath.Text = LoveFusion.Properties.Settings.Default.IconPath;
             TextBox_GameName.Text = LoveFusion.Properties.Settings.Default.GameName;
             OpenFolder_CheckBox.Checked = LoveFusion.Properties.Settings.Default.OpenFolder_CheckBox;
         }
@@ -44,6 +48,7 @@ namespace MyFirstProject
             LoveFusion.Properties.Settings.Default.GamePath = TextBox_GamePath.Text;
             LoveFusion.Properties.Settings.Default.BinPath = TextBox_BinPath.Text;
             LoveFusion.Properties.Settings.Default.OutputPath = TextBox_OutputPath.Text;
+            LoveFusion.Properties.Settings.Default.IconPath = TextBox_IconPath.Text;
             LoveFusion.Properties.Settings.Default.GameName = TextBox_GameName.Text;
             LoveFusion.Properties.Settings.Default.OpenFolder_CheckBox = OpenFolder_CheckBox.Checked;
 
@@ -66,8 +71,10 @@ namespace MyFirstProject
         private string[] CopyLove2dFiles()
         {
             string[] dllFiles = Directory.GetFiles(TextBox_Love2dPath.Text, "*.dll");
-            string[] licenseFiles = Directory.GetFiles(TextBox_Love2dPath.Text, "license.txt");
-            string[] files = dllFiles.Concat(licenseFiles).ToArray();
+            string[] licenseFile = Directory.GetFiles(TextBox_Love2dPath.Text, "license.txt");
+            string[] loveExeFile = Directory.GetFiles(TextBox_Love2dPath.Text, "love.exe");
+
+            string[] files = dllFiles.Concat(licenseFile).Concat(loveExeFile).ToArray();
 
             foreach (string file in files)
             {
@@ -94,19 +101,41 @@ namespace MyFirstProject
             }
         }
 
-        private void ZipGame()
+        private void ChangeIcon()
         {
-            if (string.IsNullOrEmpty(TextBox_GameName.Text))
+            string exeFilePath = Path.Combine(TextBox_OutputPath.Text, "love.exe");
+            if (File.Exists(exeFilePath) && (!string.IsNullOrEmpty(TextBox_IconPath.Text)))
             {
-                TextBox_GameName.Text = Path.GetFileName(TextBox_GamePath.Text);
+                string rceditPath = "rcedit-x64.exe";
+                string arguments = $"\"{Path.Combine(TextBox_OutputPath.Text, "love.exe")}\" --set-icon \"{TextBox_IconPath.Text}\"";
+
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = rceditPath,
+                    Arguments = arguments,
+                    UseShellExecute = false, // Required to redirect standard output and error
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+
+                using (Process process = new Process())
+                {
+                    process.StartInfo = startInfo;
+                    process.Start();
+                    process.WaitForExit();
+
+                    if (process.ExitCode != 0)
+                    {
+                        string errorMessage = process.StandardError.ReadToEnd();
+                        MessageBox.Show($"Failed to change icon: {errorMessage}");
+                    }
+                }
             }
-            string zipFilePath = Path.Combine(TextBox_OutputPath.Text, TextBox_GameName.Text + ".zip");
-            ZipFile.CreateFromDirectory(TextBox_GamePath.Text, zipFilePath);
+        }
 
-            string loveFilePath = Path.ChangeExtension(zipFilePath, ".love");
-            File.Move(zipFilePath, loveFilePath);
-
-            byte[] loveExeBytes = File.ReadAllBytes(Path.Combine(TextBox_Love2dPath.Text, "love.exe"));
+        private void FuseGame()
+        {
+            byte[] loveExeBytes = File.ReadAllBytes(Path.Combine(TextBox_OutputPath.Text, "love.exe"));
             byte[] loveFileBytes = File.ReadAllBytes(Path.Combine(TextBox_OutputPath.Text, TextBox_GameName.Text + ".love"));
 
             using (FileStream outputStream = new FileStream(Path.Combine(TextBox_OutputPath.Text, TextBox_GameName.Text + ".exe"), FileMode.Create))
@@ -114,7 +143,29 @@ namespace MyFirstProject
                 outputStream.Write(loveExeBytes, 0, loveExeBytes.Length);
                 outputStream.Write(loveFileBytes, 0, loveFileBytes.Length);
             }
+        }
+
+        private void SetGameName()
+        {
+            if (string.IsNullOrEmpty(TextBox_GameName.Text))
+            {
+                TextBox_GameName.Text = Path.GetFileName(TextBox_GamePath.Text);
+            }
+        }
+        private void PrepareGameFiles()
+        {
+            SetGameName();
+
+            string zipFilePath = Path.Combine(TextBox_OutputPath.Text, TextBox_GameName.Text + ".zip");
+            string loveFilePath = Path.ChangeExtension(zipFilePath, ".love");
+
+            ZipFile.CreateFromDirectory(TextBox_GamePath.Text, zipFilePath);
+            File.Move(zipFilePath, loveFilePath);
+            ChangeIcon();
+            FuseGame();
+
             File.Delete(Path.Combine(TextBox_OutputPath.Text, TextBox_GameName.Text + ".love"));
+            File.Delete(Path.Combine(TextBox_OutputPath.Text, "love.exe"));
             Console.WriteLine("*.exe created successfully.");
         }
 
@@ -158,7 +209,7 @@ namespace MyFirstProject
                 {
                     try
                     {
-                        ZipGame();
+                        PrepareGameFiles();
                     }
                     catch (Exception ex)
                     {
@@ -199,6 +250,25 @@ namespace MyFirstProject
                 Button_CreateExe.Enabled = false;
                 Button_CreateExe.FlatStyle = FlatStyle.Flat;
                 Button_CreateExe.BackColor = Color.DarkGray; // Change the background color
+            }
+        }
+
+        private void Icon_Click(object sender, EventArgs e)
+        {
+            // Create a new instance of OpenFileDialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            // Set the properties of the dialog
+            openFileDialog.Title = "Open File";
+            //openFileDialog.Filter = "All files (*.*)|*.*"; // You can set specific file types here
+            openFileDialog.Filter = "Icon files (*.ico)|*.ico";
+            openFileDialog.Multiselect = false; // Allow only single file selection
+
+            // Show the dialog and check if the user clicked OK
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Get the selected file name
+                TextBox_IconPath.Text = openFileDialog.FileName;
             }
         }
     }

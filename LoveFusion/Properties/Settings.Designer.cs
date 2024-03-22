@@ -94,5 +94,17 @@ namespace LoveFusion.Properties {
                 this["OpenFolder_CheckBox"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string IconPath {
+            get {
+                return ((string)(this["IconPath"]));
+            }
+            set {
+                this["IconPath"] = value;
+            }
+        }
     }
 }

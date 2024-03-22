@@ -43,6 +43,8 @@
             OpenFolder_CheckBox = new CheckBox();
             Label_Version = new Label();
             pictureBox1 = new PictureBox();
+            TextBox_IconPath = new TextBox();
+            Button_Icon = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -106,7 +108,7 @@
             // 
             Button_CreateExe.BackColor = SystemColors.Control;
             Button_CreateExe.Enabled = false;
-            Button_CreateExe.Location = new Point(12, 160);
+            Button_CreateExe.Location = new Point(12, 189);
             Button_CreateExe.Name = "Button_CreateExe";
             Button_CreateExe.Size = new Size(113, 23);
             Button_CreateExe.TabIndex = 7;
@@ -117,7 +119,7 @@
             // TextBox_GameName
             // 
             TextBox_GameName.AcceptsReturn = true;
-            TextBox_GameName.Location = new Point(131, 127);
+            TextBox_GameName.Location = new Point(131, 156);
             TextBox_GameName.Name = "TextBox_GameName";
             TextBox_GameName.Size = new Size(231, 23);
             TextBox_GameName.TabIndex = 8;
@@ -125,7 +127,7 @@
             // lblGameName
             // 
             lblGameName.AutoSize = true;
-            lblGameName.Location = new Point(52, 135);
+            lblGameName.Location = new Point(52, 160);
             lblGameName.Name = "lblGameName";
             lblGameName.Size = new Size(73, 15);
             lblGameName.TabIndex = 9;
@@ -153,7 +155,7 @@
             // OpenFolder_CheckBox
             // 
             OpenFolder_CheckBox.AutoSize = true;
-            OpenFolder_CheckBox.Location = new Point(131, 163);
+            OpenFolder_CheckBox.Location = new Point(131, 192);
             OpenFolder_CheckBox.Name = "OpenFolder_CheckBox";
             OpenFolder_CheckBox.Size = new Size(146, 19);
             OpenFolder_CheckBox.TabIndex = 12;
@@ -164,7 +166,7 @@
             // 
             Label_Version.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             Label_Version.AutoSize = true;
-            Label_Version.Location = new Point(532, 180);
+            Label_Version.Location = new Point(532, 210);
             Label_Version.Name = "Label_Version";
             Label_Version.Size = new Size(37, 15);
             Label_Version.TabIndex = 13;
@@ -175,12 +177,31 @@
             pictureBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox1.Image = LoveFusion.Properties.Resources.love_app_icon;
-            pictureBox1.Location = new Point(523, 126);
+            pictureBox1.Location = new Point(523, 156);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(56, 56);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 14;
             pictureBox1.TabStop = false;
+            // 
+            // TextBox_IconPath
+            // 
+            TextBox_IconPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TextBox_IconPath.Location = new Point(131, 127);
+            TextBox_IconPath.Name = "TextBox_IconPath";
+            TextBox_IconPath.Size = new Size(441, 23);
+            TextBox_IconPath.TabIndex = 16;
+            TextBox_IconPath.TextChanged += PathTextChanged;
+            // 
+            // Button_Icon
+            // 
+            Button_Icon.Location = new Point(12, 127);
+            Button_Icon.Name = "Button_Icon";
+            Button_Icon.Size = new Size(113, 23);
+            Button_Icon.TabIndex = 17;
+            Button_Icon.Text = "Button_Icon";
+            Button_Icon.UseVisualStyleBackColor = true;
+            Button_Icon.Click += Icon_Click;
             // 
             // Form
             // 
@@ -188,7 +209,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(584, 196);
+            ClientSize = new Size(584, 226);
+            Controls.Add(Button_Icon);
+            Controls.Add(TextBox_IconPath);
             Controls.Add(pictureBox1);
             Controls.Add(Label_Version);
             Controls.Add(OpenFolder_CheckBox);
@@ -205,8 +228,8 @@
             Controls.Add(Button_Love2d);
             DoubleBuffered = true;
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            MaximumSize = new Size(2000, 235);
-            MinimumSize = new Size(600, 235);
+            MaximumSize = new Size(2000, 265);
+            MinimumSize = new Size(600, 265);
             Name = "Form";
             Text = "Löve2D Fusion";
             FormClosed += Form1_FormClosed;
@@ -233,5 +256,7 @@
         private CheckBox OpenFolder_CheckBox;
         private Label Label_Version;
         private PictureBox pictureBox1;
+        private TextBox TextBox_IconPath;
+        private Button Button_Icon;
     }
 }
