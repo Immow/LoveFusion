@@ -1,6 +1,6 @@
 # Löve2d Game Packager
 
-The Löve2d Game Packager is a tool designed to streamline the process of packaging games made with Löve2d framework. This tool simplifies the packaging process by remembering path locations, making it easier for developers to package their games consistently.
+The Löve2d Game Packager is a tool designed to streamline the process of packaging games made with Löve2d framework. This tool simplifies the packaging process by remembering path locations, making it easier for developers to package their games consistently. Users can use their own custom icon to personalize the presentation of their packaged game executables.
 
 ## Features
 
