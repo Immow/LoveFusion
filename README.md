@@ -7,6 +7,8 @@ LöveFusion is a tool designed to streamline the process of packaging games made
 - **Path Location Memory**: The tool remembers the path locations used for packaging, reducing the need for developers to repeatedly specify the same paths.
 - **Simplified Packaging Process**: With the stored path locations, packaging games becomes a more straightforward and efficient task.
 - **User-Friendly Interface**: The program offers a simple and intuitive interface, making it accessible to developers of all skill levels.
+- **Custom Icon Support**: Users can use a custom icon to personalize the presentation of their packaged game executables.
+- **Bin Directory Support**: Developers can include binary files in the packaging process, facilitating the inclusion of additional resources or dependencies required by the game.
 
 ## Usage
 
