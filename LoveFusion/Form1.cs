@@ -9,7 +9,7 @@ using LoveFusion.Properties;
 
 // TODO
 // Change messagebox to: DialogResult result = MessageBox.Show("...", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-// Option to change game.exe icon?
+// Change icon of LoveFusion.
 
 namespace MyFirstProject
 {

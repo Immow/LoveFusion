@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form));
             Button_Love2d = new Button();
             folderBrowserDialog = new FolderBrowserDialog();
             TextBox_Love2dPath = new TextBox();
@@ -175,13 +176,13 @@
             Label_Version.Name = "Label_Version";
             Label_Version.Size = new Size(37, 15);
             Label_Version.TabIndex = 13;
-            Label_Version.Text = "v 0.01";
+            Label_Version.Text = "v 0.02";
             // 
             // pictureBox1
             // 
             pictureBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBox1.Image = LoveFusion.Properties.Resources.love_app_icon;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(523, 156);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(56, 56);
@@ -237,7 +238,7 @@
             MaximumSize = new Size(2000, 265);
             MinimumSize = new Size(600, 265);
             Name = "Form";
-            Text = "Löve2D Fusion";
+            Text = "LöveFusion";
             FormClosed += Form1_FormClosed;
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
